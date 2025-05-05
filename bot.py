@@ -19,11 +19,10 @@ logger = logging.getLogger(__name__)
 # Kredeensial dan konfigurasi dari environment variables
 API_ID = int(os.environ.get("API_ID", "28690093"))
 API_HASH = os.environ.get("API_HASH", "aa512841e37c5ccb5a8ac494395bb373")
-PHONE_NUMBER = os.environ.get("PHONE_NUMBER", "+6285161054271")
 SOURCE_CHANNEL_ID = int(os.environ.get("SOURCE_CHANNEL_ID", "-1002626068320"))
 TARGET_CHANNEL_ID = int(os.environ.get("TARGET_CHANNEL_ID", "-1002694678122"))
 
-# Gunakan StringSession jika sudah ada, atau buat session baru
+# Gunakan StringSession dari environment variable
 SESSION = os.environ.get("TELETHON_SESSION", "")
 
 async def main():
@@ -58,12 +57,7 @@ async def main():
                     logger.error(f"Error saat mengirim pesan: {str(e)}")
             
             # Connect dan start
-            await client.start(PHONE_NUMBER)
-            
-            # Jika ini pertama kali, simpan session string untuk penggunaan berikutnya
-            if not SESSION:
-                print(f"SESSION STRING: {client.session.save()}")
-                print("Simpan string session ini sebagai environment variable TELETHON_SESSION")
+            await client.start()
             
             logger.info(f"Bot berhasil diaktifkan. Memantau channel: {SOURCE_CHANNEL_ID}")
             
